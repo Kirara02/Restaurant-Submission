@@ -73,75 +73,76 @@ class _DetailPageState extends State<DetailPage> {
       context: context,
       builder: (context) {
         return BlocProvider(
-          create: (context) => context.read<DetailBloc>(),
-          child: Dialog(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Add Reviews",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      filled: false,
-                      label: Text("Name"),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  TextFormField(
-                    controller: reviewController,
-                    decoration: const InputDecoration(
-                      filled: false,
-                      label: Text("Review"),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: AppScreens.width,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _sendData().then((value) {
-                          if (value != false) {
-                            context.read<DetailBloc>().add(
-                                DetailEvent.addReview(
-                                    id: widget.restaurant!.id,
-                                    name: nameController.text,
-                                    review: reviewController.text));
+          create: (context) => DetailBloc(),
+          child: Builder(
+            builder: (context) {
+              return Dialog(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Add Reviews",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        controller: nameController,
+                        decoration: const InputDecoration(
+                          filled: false,
+                          label: Text("Name"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: reviewController,
+                        decoration: const InputDecoration(
+                          filled: false,
+                          label: Text("Review"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: AppScreens.width,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _sendData().then((value) {
+                              if (value != false) {
+                                context.read<DetailBloc>().add(
+                                    DetailEvent.addReview(
+                                        id: widget.restaurant!.id,
+                                        name: nameController.text,
+                                        review: reviewController.text));
 
-                            context.read<DetailBloc>().add(
-                                DetailEvent.started(id: widget.restaurant!.id));
+                                nameController.clear();
+                                reviewController.clear();
 
-                            nameController.clear();
-                            reviewController.clear();
-
-                            UXToast.show(
-                                message: "Refresh untuk memperbarui data!");
-                            // Close the dialog
-                            Navigator.pop(context);
-                          }
-                          hideKeyboard(context);
-                        });
-                      },
-                      child: const Text("Send"),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                                UXToast.show(
+                                    message: "Refresh untuk memperbarui data!");
+                                // Close the dialog
+                                Navigator.pop(context);
+                              }
+                              hideKeyboard(context);
+                            });
+                          },
+                          child: const Text("Send"),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
           ),
         );
       },
@@ -286,8 +287,6 @@ class _DetailPageState extends State<DetailPage> {
                     }
                   },
                   child: Builder(builder: (context) {
-                    print(localData!.id == data.id);
-                    // Use a conditional statement to choose the icon based on the localData state
                     final IconData favoriteIcon = data.id == localData!.id
                         ? Icons.favorite
                         : Icons.favorite_border;
