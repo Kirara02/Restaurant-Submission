@@ -1,0 +1,8 @@
+{
+  "author": "Kirara Bernstein",
+  "locale": "en",
+  "global_text" : {
+    "search" : "Search",
+    "not_found" : "Restaurant not found"
+  }
+}
