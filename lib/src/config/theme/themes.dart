@@ -19,7 +19,7 @@ class UXTheme {
         primarySwatch: AppColors.primaryColors,
         primaryColor: AppColors.primary,
         brightness: Brightness.dark,
-
+        useMaterial3: true,
         // Appbar
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(

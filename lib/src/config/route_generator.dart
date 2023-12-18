@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:restaurant/src/features/detail/view/detail_page.dart';
+import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
+import 'package:restaurant/src/features/detail/view/detail_page.dart';
 import 'package:restaurant/src/features/splash/view/splash_page.dart';
 
 class RouteGenerator {
@@ -7,17 +8,18 @@ class RouteGenerator {
     const String homeRoute = '/home';
     const String splash = '/splash';
     const String detail = '/detail';
-    // late final playerRoute = settings.arguments as PlayerRouteModel;
-    // late final multiArgs = settings.arguments as List<dynamic>;
-    switch (settings.name) {
-      // case splashRoute:
-      //   return MaterialPageRoute(builder: (context) => const SplashScreen());
+    late final multiArgs = settings.arguments as List<dynamic>;
 
+    switch (settings.name) {
       case splash:
         return MaterialPageRoute(builder: (context) => const SplashPage());
 
-      // case detail:
-      //   return MaterialPageRoute(builder: (context) => const DetailPage());
+      case detail:
+        return MaterialPageRoute(
+            builder: (context) => DetailPage(
+                  restaurant: ModalRoute.of(context)?.settings.arguments
+                      as RestaurantMod,
+                ));
 
       default:
         return _errorRoute();

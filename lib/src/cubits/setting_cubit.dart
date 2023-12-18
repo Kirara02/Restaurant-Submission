@@ -18,11 +18,19 @@ class SettingCubit extends Cubit<bool> {
       log('Scheduling Activated');
       log(newState.toString());
 
+      // await AndroidAlarmManager.periodic(
+      //   const Duration(hours: 24),
+      //   1,
+      //   BackgroundService.callback,
+      //   startAt: DateTimeHelper.format(),
+      //   exact: true,
+      //   wakeup: true,
+      // );
       await AndroidAlarmManager.periodic(
-        const Duration(hours: 24),
+        const Duration(minutes: 1),
         1,
         BackgroundService.callback,
-        startAt: DateTimeHelper.format(),
+        startAt: DateTime.now(),
         exact: true,
         wakeup: true,
       );

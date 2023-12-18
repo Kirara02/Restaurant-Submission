@@ -23,7 +23,6 @@ class _AppRootState extends State<AppRoot> {
       barrierColor: Colors.black.withOpacity(0.25),
       builder: (context) {
         return Dialog(
-          backgroundColor: UIColors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
             child: Column(
@@ -44,7 +43,7 @@ class _AppRootState extends State<AppRoot> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context, false);
+                          Navigator.pop(context, true);
                         },
                         child: const Text("Ya"),
                       ),
@@ -55,7 +54,7 @@ class _AppRootState extends State<AppRoot> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context, true);
+                          Navigator.pop(context, false);
                         },
                         child: const Text("Tidak"),
                       ),
@@ -96,9 +95,9 @@ class _AppRootState extends State<AppRoot> {
             resizeToAvoidBottomInset: true,
             body: _buildBody(context, state),
             bottomNavigationBar: BottomAppBar(
-              height: kBottomNavigationBarHeight,
+              height: kBottomNavigationBarHeight + 2,
               padding: EdgeInsets.zero,
-              elevation: 10,
+              elevation: 5,
               child: BottomNavigationBar(
                 onTap: (index) {
                   context.read<NavigationCubit>().changeIndex(index);

@@ -23,9 +23,9 @@ import 'package:restaurant/src/utils/logger.dart';
 import 'package:restaurant/src/widgets/dialogs/ux_toast_wrapper.dart';
 
 class DetailPage extends StatefulWidget {
-  final RestaurantMod? restaurant;
+  final RestaurantMod restaurant;
 
-  const DetailPage({Key? key, this.restaurant}) : super(key: key);
+  const DetailPage({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -46,7 +46,7 @@ class _DetailPageState extends State<DetailPage> {
 
   void _getLocalData() async {
     localData = await DatabaseService.instance
-        .getRestaurantById(id: widget.restaurant!.id);
+        .getRestaurantById(id: widget.restaurant.id);
   }
 
   Future _toast(String? message) {
@@ -74,76 +74,75 @@ class _DetailPageState extends State<DetailPage> {
       builder: (context) {
         return BlocProvider(
           create: (context) => DetailBloc(),
-          child: Builder(
-            builder: (context) {
-              return Dialog(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Add Reviews",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+          child: Builder(builder: (context) {
+            return Dialog(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Add Reviews",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(
-                        height: 16,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        filled: false,
+                        label: Text("Name"),
                       ),
-                      TextFormField(
-                        controller: nameController,
-                        decoration: const InputDecoration(
-                          filled: false,
-                          label: Text("Name"),
-                        ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextFormField(
+                      controller: reviewController,
+                      decoration: const InputDecoration(
+                        filled: false,
+                        label: Text("Review"),
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        controller: reviewController,
-                        decoration: const InputDecoration(
-                          filled: false,
-                          label: Text("Review"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: AppScreens.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _sendData().then((value) {
-                              if (value != false) {
-                                context.read<DetailBloc>().add(
-                                    DetailEvent.addReview(
-                                        id: widget.restaurant!.id,
-                                        name: nameController.text,
-                                        review: reviewController.text));
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: AppScreens.width,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _sendData().then((value) {
+                            if (value != false) {
+                              context.read<DetailBloc>().add(
+                                  DetailEvent.addReview(
+                                      id: widget.restaurant.id,
+                                      name: nameController.text,
+                                      review: reviewController.text));
 
-                                nameController.clear();
-                                reviewController.clear();
+                              nameController.clear();
+                              reviewController.clear();
 
-                                UXToast.show(
-                                    message: "Refresh untuk memperbarui data!");
-                                // Close the dialog
-                                Navigator.pop(context);
-                              }
-                              hideKeyboard(context);
-                            });
-                          },
-                          child: const Text("Send"),
-                        ),
-                      )
-                    ],
-                  ),
+                              UXToast.show(
+                                  message: "Refresh untuk memperbarui data!");
+                              // Close the dialog
+                              Navigator.pop(context);
+                            }
+                            hideKeyboard(context);
+                          });
+                        },
+                        child: const Text("Send"),
+                      ),
+                    )
+                  ],
                 ),
-              );
-            }
-          ),
+              ),
+            );
+          }),
         );
       },
     );
@@ -155,7 +154,7 @@ class _DetailPageState extends State<DetailPage> {
       providers: [
         BlocProvider(
             create: (context) => DetailBloc()
-              ..add(DetailEvent.started(id: widget.restaurant!.id))),
+              ..add(DetailEvent.started(id: widget.restaurant.id))),
         BlocProvider(
           create: (context) => FavoriteBloc(),
         ),
@@ -188,8 +187,9 @@ class _DetailPageState extends State<DetailPage> {
                   return Builder(builder: (context) {
                     return RefreshIndicator(
                       onRefresh: () => Future.sync(() {
-                        context.read<DetailBloc>().add(
-                            DetailEvent.started(id: widget.restaurant!.id));
+                        context
+                            .read<DetailBloc>()
+                            .add(DetailEvent.started(id: widget.restaurant.id));
                       }),
                       child: SingleChildScrollView(
                         child: Column(
@@ -282,8 +282,7 @@ class _DetailPageState extends State<DetailPage> {
                           .add(FavoriteEvent.deleteFavorite(id: localData!.id));
                     } else if (data.id != localData!.id) {
                       context.read<FavoriteBloc>().add(
-                          FavoriteEvent.addtoFavorite(
-                              data: widget.restaurant!));
+                          FavoriteEvent.addtoFavorite(data: widget.restaurant));
                     }
                   },
                   child: Builder(builder: (context) {

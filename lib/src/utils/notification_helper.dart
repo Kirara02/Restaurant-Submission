@@ -1,7 +1,15 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:restaurant/src/config/navigation.dart';
+import 'package:restaurant/src/core/api_result.dart';
 import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
+import 'package:restaurant/src/data/models/restaurant_detail/restaurant_detail_mod.dart';
+import 'package:restaurant/src/data/services/repository_service.dart';
+import 'package:restaurant/src/features/detail/view/detail_page.dart';
+import 'package:restaurant/src/utils/logger.dart';
 import 'package:rxdart/subjects.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
@@ -15,6 +23,7 @@ class NotificationHelper {
 
   factory NotificationHelper() => _instance ?? NotificationHelper._internal();
 
+  @pragma('vm:entry-point')
   Future<void> initNotifications(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     flutterLocalNotificationsPlugin
@@ -77,20 +86,23 @@ class NotificationHelper {
     final RestaurantMod randomRestaurant = restaurants[randomIndex];
 
     var titleNews = randomRestaurant.name;
-    var restaurantPayload = "Lokasi ${randomRestaurant.city}";
 
     await flutterLocalNotificationsPlugin.show(
-        0, titleNotification, titleNews, platformChannelSpecifics,
-        payload: restaurantPayload);
+      0,
+      titleNotification,
+      titleNews,
+      platformChannelSpecifics,
+      payload: json.encode(randomRestaurant.toJson()),
+    );
   }
 
-  // void configureSelectNotificationSubject(String route) {
-  //   selectNotificationSubject.stream.listen(
-  //         (String payload) async {
-  //       var data = ArticlesResult.fromJson(json.decode(payload));
-  //       var article = data.articles[0];
-  //       Navigation.intentWithData(route, article);
-  //     },
-  //   );
-  // }
+  void configureSelectNotificationSubject(String route) async {
+    selectNotificationSubject.stream.listen((payload) {
+      if (payload.isNotEmpty) {
+        final decodedPayload = jsonDecode(payload);
+        final restaurantMod = RestaurantMod.fromJson(decodedPayload);
+        Navigation.intentWithData(route, restaurantMod);
+      }
+    });
+  }
 }
