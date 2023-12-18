@@ -2,13 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant/src/config/navigation.dart';
-import 'package:restaurant/src/config/route_generator.dart';
 import 'package:restaurant/src/config/theme/themes.dart';
 import 'package:restaurant/src/cubits/navigation_cubit.dart';
 import 'package:restaurant/src/cubits/setting_cubit.dart';
 import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
 import 'package:restaurant/src/features/detail/view/detail_page.dart';
-import 'package:restaurant/src/features/favorite/bloc/favorite_bloc.dart';
 import 'package:restaurant/src/features/splash/view/splash_page.dart';
 import 'package:restaurant/src/utils/notification_helper.dart';
 
