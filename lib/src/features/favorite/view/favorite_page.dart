@@ -20,52 +20,61 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FavoriteBloc()..add(const FavoriteEvent.started()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Favorite"),
-        ),
-        body: Builder(builder: (context) {
-          return RefreshIndicator(
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Favorite"),
+            actions: [
+              IconButton(
+                  onPressed: () => context
+                      .read<FavoriteBloc>()
+                      .add(const FavoriteEvent.started()),
+                  icon: const Icon(Icons.refresh_rounded))
+            ],
+          ),
+          body: RefreshIndicator(
             onRefresh: () => Future.sync(() {
               context.read<FavoriteBloc>().add(const FavoriteEvent.started());
             }),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  BlocBuilder<FavoriteBloc, FavoriteState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () => const SizedBox(),
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        loaded: (data) {
-                          if (data.isNotEmpty) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                var restaurant = data[index];
-                                return RestaurantCard(restaurant: restaurant);
-                              },
-                            );
-                          }
-                          return const Center(
-                              child: Text("Belum ada restaurant favorite"));
-                        },
-                      );
-                    },
-                  ),
-                ],
+              child: SizedBox(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    BlocBuilder<FavoriteBloc, FavoriteState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () => const SizedBox(),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          loaded: (data) {
+                            if (data.isNotEmpty) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  var restaurant = data[index];
+                                  return RestaurantCard(restaurant: restaurant);
+                                },
+                              );
+                            }
+                            return const Center(
+                                child: Text("Belum ada restaurant favorite"));
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 
