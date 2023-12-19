@@ -7,7 +7,7 @@ import 'package:restaurant/src/config/navigation.dart';
 import 'package:restaurant/src/core/api_result.dart';
 import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
 import 'package:restaurant/src/data/models/restaurant_detail/restaurant_detail_mod.dart';
-import 'package:restaurant/src/data/services/repository_service.dart';
+import 'package:restaurant/src/data/services/restaurant_service.dart';
 import 'package:restaurant/src/features/detail/view/detail_page.dart';
 import 'package:restaurant/src/utils/logger.dart';
 import 'package:rxdart/subjects.dart';

@@ -5,7 +5,7 @@ import 'package:restaurant/src/core/network_exceptions.dart';
 import 'package:restaurant/src/data/db/database.dart';
 import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
 import 'package:restaurant/src/data/models/restaurant_detail/restaurant_detail_mod.dart';
-import 'package:restaurant/src/data/services/repository_service.dart';
+import 'package:restaurant/src/data/services/restaurant_service.dart';
 import 'package:restaurant/src/utils/logger.dart';
 
 part 'detail_event.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:restaurant/bootstrap.dart';
 import 'package:restaurant/src/core/api_result.dart';
 import 'package:restaurant/src/data/models/restaurant/restaurant_mod.dart';
-import 'package:restaurant/src/data/services/repository_service.dart';
+import 'package:restaurant/src/data/services/restaurant_service.dart';
 import 'package:restaurant/src/utils/notification_helper.dart';
 
 final ReceivePort port = ReceivePort();
