@@ -217,7 +217,7 @@ void main() {
         .toList();
 
     // Set up mock response
-    when(mockClient.get(Uri.parse("${AppConstants.BASEURL}/list")))
+    when(mockClient.get(Uri.parse("${AppConstants.BASEURL}list")))
         .thenAnswer((_) async => http.Response(
               jsonEncode({'restaurants': expectedData}),
               200,

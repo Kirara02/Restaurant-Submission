@@ -8,7 +8,7 @@ import 'package:restaurant/src/data/repository/restaurant_test_repository.dart';
 class RestaurantTestService implements RestaurantTestRepository {
   @override
   Future<List<RestaurantMod>> getRestaurant() async {
-    final response = await http.get(Uri.parse("${AppConstants.BASEURL}/list"));
+    final response = await http.get(Uri.parse("${AppConstants.BASEURL}list"));
 
     try {
       if (response.statusCode == 200) {
